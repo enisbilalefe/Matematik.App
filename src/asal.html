@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Asal Sayılar</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-right: 10px;
+    }
+    button {
+      background-color: #3f51b5;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+    pre {
+      margin-top: 20px;
+      background-color: #2e2e2e;
+      padding: 15px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<h2>Asal Sayılar</h2>
+<input id="input" type="number" placeholder="Pozitif sayı girin" />
+<button onclick="hesapla()">Hesapla</button>
+<pre id="sonuc"></pre>
+
+<script>
+  function hesapla() {
+    const n = parseInt(document.getElementById('input').value);
+    const sonuc = document.getElementById('sonuc');
+    if (isNaN(n) || n < 2) {
+      sonuc.textContent = '2 veya daha büyük bir sayı giriniz.';
+      return;
+    }
+    let asalSayilar = [];
+    for (let i = 2; i <= n; i++) {
+      let asal = true;
+      for (let j = 2; j <= Math.sqrt(i); j++) {
+        if (i % j === 0) {
+          asal = false;
+          break;
+        }
+      }
+      if (asal) asalSayilar.push(i);
+    }
+    sonuc.textContent = `${n}'e kadar olan asal sayılar:\n${asalSayilar.join(', ')}`;
+  }
+</script>
+</body>
+</html>

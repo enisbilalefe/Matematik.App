@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mükemmel Sayı Bulma</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-right: 10px;
+    }
+    button {
+      background-color: #3f51b5;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+    pre {
+      margin-top: 20px;
+      background-color: #2e2e2e;
+      padding: 15px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<h2>Mükemmel Sayı Bulma</h2>
+<input id="input" type="number" placeholder="Pozitif sayı girin" />
+<button onclick="hesapla()">Hesapla</button>
+<pre id="sonuc"></pre>
+
+<script>
+  function hesapla() {
+    const n = parseInt(document.getElementById('input').value);
+    const sonuc = document.getElementById('sonuc');
+    if (isNaN(n) || n < 1) {
+      sonuc.textContent = 'Pozitif bir sayı giriniz.';
+      return;
+    }
+    let toplam = 0;
+    let bolenler = [];
+    for (let i = 1; i < n; i++) {
+      if (n % i === 0) {
+        toplam += i;
+        bolenler.push(i);
+      }
+    }
+    let metin = `Bölenler: ${bolenler.join(', ')}\nToplam: ${toplam}\n`;
+    metin += (toplam === n) ? `${n} mükemmel sayıdır.` : `${n} mükemmel sayı değildir.`;
+    sonuc.textContent = metin;
+  }
+</script>
+</body>
+</html>

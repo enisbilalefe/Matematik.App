@@ -1,0 +1,69 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class AsalPanel extends JPanel {
+    public AsalPanel(AnaPencere pencere) {
+        setBackground(Color.WHITE);
+        setLayout(new GridBagLayout());
+
+        JLabel label = new JLabel("Pozitif bir sayı girin:");
+        JTextField input = new JTextField(20);
+        JTextArea sonuc = new JTextArea(10, 40);
+        JButton hesapla = new JButton("Listele");
+        JButton geri = new JButton("Geri");
+
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        label.setForeground(Color.DARK_GRAY);
+        input.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        sonuc.setFont(new Font("Consolas", Font.PLAIN, 16));
+        hesapla.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        geri.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+        sonuc.setEditable(false);
+        sonuc.setLineWrap(true);
+        sonuc.setWrapStyleWord(true);
+        sonuc.setBackground(Color.WHITE);
+        sonuc.setForeground(Color.DARK_GRAY);
+
+        hesapla.addActionListener(e -> {
+            try {
+                int sinir = Integer.parseInt(input.getText().trim());
+                if (sinir < 2) {
+                    sonuc.setText("2 veya daha büyük bir sayı giriniz.");
+                    return;
+                }
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(sinir).append(" sayısına kadar asal sayılar:\n");
+
+                for (int i = 2; i <= sinir; i++) {
+                    boolean asal = true;
+                    for (int j = 2; j <= Math.sqrt(i); j++) {
+                        if (i % j == 0) {
+                            asal = false;
+                            break;
+                        }
+                    }
+                    if (asal) sb.append(i).append(" ");
+                }
+
+                sonuc.setText(sb.toString());
+            } catch (NumberFormatException ex) {
+                sonuc.setText("Geçerli bir tam sayı giriniz.");
+            }
+        });
+
+        geri.addActionListener(e -> pencere.showPanel("menu"));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridwidth = 2; gbc.gridx = 0;
+
+        gbc.gridy = 0; add(label, gbc);
+        gbc.gridy = 1; add(input, gbc);
+        gbc.gridy = 2; add(hesapla, gbc);
+        gbc.gridy = 3; add(new JScrollPane(sonuc), gbc);
+        gbc.gridy = 4; add(geri, gbc);
+    }
+}
+
