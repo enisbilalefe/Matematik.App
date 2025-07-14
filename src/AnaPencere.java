@@ -11,7 +11,6 @@ public class AnaPencere extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Panelleri oluştur ve ekle
         JPanel menuPanel = new MenuPanel(this);
         JPanel faktoriyelPanel = new FaktoriyelPanel(this);
         JPanel mukemmelPanel = new MukemmelPanel(this);

@@ -1,59 +1,210 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Faktöriyel Hesaplama</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factorial Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #6366f1;
+      --secondary-color: #4f46e5;
+      --accent-color: #8b5cf6;
+      --text-color: #f8fafc;
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --input-bg: #334155;
+      --hover-color: #7c3aed;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #1e1e1e;
-      color: #eee;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 30px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
     }
-    input, button {
-      font-size: 18px;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      margin-right: 10px;
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 2.5rem;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    button {
-      background-color: #3f51b5;
-      color: white;
-      cursor: pointer;
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 600;
     }
-    button:hover {
-      background-color: #303f9f;
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
-    pre {
-      margin-top: 20px;
-      background-color: #2e2e2e;
-      padding: 15px;
+
+    input[type="number"] {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid var(--input-bg);
       border-radius: 10px;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn {
+      padding: 0.9rem 2rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-radius: 12px;
+      font-family: 'Consolas', monospace;
+      font-size: 1.1rem;
+      line-height: 1.6;
       white-space: pre-wrap;
-      font-family: Consolas, monospace;
-      font-size: 16px;
+      min-height: 100px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow-x: auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-<h2>Faktöriyel Hesaplama</h2>
-<input id="input" type="number" placeholder="Pozitif sayı girin" />
-<button onclick="hesapla()">Hesapla</button>
-<pre id="sonuc"></pre>
+  <div class="container">
+    <h1><i class="fas fa-calculator"></i> Factorial Calculator</h1>
 
-<script>
-  function hesapla() {
-    const n = parseInt(document.getElementById('input').value);
-    const sonuc = document.getElementById('sonuc');
-    if (isNaN(n) || n < 0) {
-      sonuc.textContent = 'Pozitif bir sayı giriniz.';
-      return;
+    <div class="input-group">
+      <input
+        id="input"
+        type="number"
+        placeholder="Enter a positive number"
+        min="0"
+        onkeydown="if(event.key === 'Enter') hesapla()"
+      />
+      <button class="btn" onclick="hesapla()">
+        <i class="fas fa-calculator"></i> Calculate
+      </button>
+    </div>
+
+    <div class="result" id="sonuc">
+      The result will appear here...
+    </div>
+
+    <a href="index.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Menu
+    </a>
+  </div>
+
+  <script>
+    function hesapla() {
+      const n = parseInt(document.getElementById('input').value);
+      const sonuc = document.getElementById('sonuc');
+
+      if (isNaN(n) || n < 0) {
+        sonuc.innerHTML = 'Please enter a valid positive number.';
+        return;
+      }
+
+      if (n > 170) {
+        sonuc.innerHTML = 'Number too large! Please enter a number less than 171.';
+        return;
+      }
+
+      let factorial = BigInt(1);
+      let calculation = '';
+
+      for (let i = 1; i <= n; i++) {
+        factorial *= BigInt(i);
+        calculation += `${i}${i < n ? ' × ' : ' = '}`;
+      }
+
+      sonuc.innerHTML = `
+        <div style="margin-bottom: 1rem; color: #a5b4fc;">${n}! = ${calculation}</div>
+        <div style="font-size: 1.2rem; font-weight: 500;">
+          <i class="fas fa-equals" style="margin-right: 0.5rem;"></i>
+          ${factorial.toLocaleString()}
+        </div>
+      `;
     }
-    let f = 1n;
-    for (let i = 2n; i <= BigInt(n); i++) f *= i;
-    sonuc.textContent = `${n}! = ${f}`;
-  }
-</script>
+  </script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
